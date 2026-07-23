@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'package:mood_study_app/presentation/pages/home_screen.dart';
+import 'login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -76,10 +79,23 @@ class SplashScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 38),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
+
+                    if(FirebaseAuth.instance.currentUser != null) {
+                      Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const HomeScreen(),
+                        ),
+                      );
+                    }
+                    else{
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => LoginScreen()),
+                      );
+                    }
+
+
+
+
                   },
 
                   style: ElevatedButton.styleFrom(

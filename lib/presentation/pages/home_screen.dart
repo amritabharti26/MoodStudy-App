@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/mood_controller.dart';
+
 import 'recommendation_screen.dart';
 import 'focus_screen.dart';
 import 'analytics_screen.dart';
@@ -123,41 +124,56 @@ class HomeScreen extends StatelessWidget {
 
               SizedBox(height: 15),
 
-              Obx(
-                () => Text(
-                  "Selected Mood: ${controller.selectedMood.value}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigo,
+              Card(
+                elevation: 1,
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(
+                          () => Text(
+                            "Selected Mood: ${controller.selectedMood.value}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigo.shade500,
+                            ),
+                          ),
+                        ),
+                        Obx(
+                          () => Text(
+                            "Saved Moods: ${controller.moodHistory.length}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.deepPurple.shade600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
-              Obx(() => Text("Saved Moods: ${controller.moodHistory.length}")),
+              SizedBox(height: 15),
 
               ElevatedButton(
                 onPressed: () async {
-                  print("Continue pressed");
-
-                  try {
-                    await controller.saveMood();
-                    print("Mood saved");
-
-                    Get.to(() => RecommendationScreen());
-                  } catch (e, s) {
-                    print(e);
-                    print(s);
-
-                    Get.snackbar("Error", e.toString());
-                  }
+                  await controller.saveMood();
+                  Get.to(() => RecommendationScreen());
                 },
 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.indigo,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                 ),
 
@@ -180,12 +196,25 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
-              ElevatedButton(
+              SizedBox(height: 8),
+
+              OutlinedButton(
                 onPressed: () {
                   Get.to(() => MoodHistoryScreen());
                 },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.indigo,
+                  minimumSize: const Size(double.infinity, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                ),
 
-                child: const Text("View History"),
+                child: const Text(
+                  "View History",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
               ),
             ],
           ),

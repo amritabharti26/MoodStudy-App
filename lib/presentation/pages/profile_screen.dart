@@ -4,6 +4,8 @@ import 'package:get/get_instance/src/extension_instance.dart';
 
 import '../controllers/focus_controller.dart';
 import '../controllers/mood_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'login_screen.dart';
 import 'home_screen.dart';
 import 'focus_screen.dart';
 import 'analytics_screen.dart';
@@ -325,6 +327,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
 
                             ListTile(
+                              onTap: () async {
+                                await FirebaseAuth.instance.signOut();
+
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const LoginScreen(),
+                                  ),
+                                  (route) => false,
+                                );
+                              },
+
                               leading: IconButton(
                                 onPressed: () {},
                                 style: IconButton.styleFrom(
